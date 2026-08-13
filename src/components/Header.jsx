@@ -1,69 +1,85 @@
 'use client';
 
 import React from 'react';
-import { ShieldCheck, Settings, Zap, Radio } from 'lucide-react';
+import { ShieldCheck, Settings, Zap, Radio, Sun, Moon } from 'lucide-react';
 
 export default function Header({
   status,
-  onOpenSettings
+  onOpenSettings,
+  theme,
+  onToggleTheme
 }) {
   return (
     <header className="jarvis-header">
       {/* Brand & Logo */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-        <div style={{
-          width: '44px',
-          height: '44px',
-          borderRadius: '10px',
-          background: 'radial-gradient(circle, rgba(0, 240, 255, 0.25) 0%, rgba(3, 7, 18, 0.8) 100%)',
-          border: '1px solid var(--cyan-bright)',
+        <div className="btn-clay btn-clay-primary" style={{
+          width: '46px',
+          height: '46px',
+          padding: 0,
+          borderRadius: '16px',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center',
-          boxShadow: '0 0 20px var(--cyan-glow)'
+          justifyContent: 'center'
         }}>
-          <Zap style={{ width: '24px', height: '24px', color: 'var(--cyan-bright)' }} />
+          <Zap style={{ width: '22px', height: '22px' }} />
         </div>
         <div>
           <div className="brand-title">
-            <span>JARVIS</span>
-            <span style={{ fontSize: '0.7rem', padding: '2px 8px', background: 'rgba(0,240,255,0.2)', border: '1px solid var(--cyan-bright)', borderRadius: '4px', fontFamily: 'var(--font-mono)' }}>MARK VII</span>
+            <span>AURON</span>
+            <span className="badge-jarvis" style={{ fontSize: '0.65rem', padding: '2px 8px', borderRadius: '8px' }}>v2.0</span>
           </div>
-          <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
-            IRON MAN ADVANCED TACTICAL VOICE ASSISTANT
+          <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 500 }}>
+            INTELLIGENT VOICE & CHAT ASSISTANT
           </div>
         </div>
       </div>
 
-      {/* System Status Badges - No model or API key mentions */}
+      {/* Control Actions & Status */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-        <span className="badge-jarvis">
-          <ShieldCheck style={{ width: '12px', height: '12px', marginRight: '4px' }} /> SYSTEM SECURE
+        {/* System Secure Badge */}
+        <span className="badge-jarvis badge-stable" style={{ display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 600 }}>
+          <ShieldCheck style={{ width: '13px', height: '13px' }} /> SECURE
         </span>
 
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          padding: '6px 14px',
-          borderRadius: '20px',
-          background: 'rgba(3, 7, 18, 0.8)',
-          border: '1px solid var(--border-hud)',
-          fontSize: '0.8rem',
-          fontFamily: 'var(--font-mono)',
-          color: status === 'listening' ? 'var(--cyan-bright)' : status === 'speaking' ? '#4ade80' : 'var(--text-bright)'
-        }}>
-          <Radio style={{ width: '14px', height: '14px' }} />
-          <span>STATUS: {status.toUpperCase()}</span>
+        {/* Live Status Indicator */}
+        <div 
+          className="btn-clay" 
+          style={{
+            pointerEvents: 'none',
+            fontSize: '0.8rem',
+            padding: '8px 16px',
+            borderRadius: '14px',
+            color: status === 'listening' ? 'var(--danger-color)' : status === 'speaking' ? 'var(--success-color)' : 'var(--text-color)',
+            border: status !== 'idle' ? '1px solid currentColor' : '1px solid var(--clay-border)'
+          }}
+        >
+          <Radio style={{ width: '14px', height: '14px', animation: status !== 'idle' ? 'spin 2s linear infinite' : 'none' }} />
+          <span style={{ fontWeight: 600 }}>{status.toUpperCase()}</span>
         </div>
 
+        {/* Theme Toggle Button */}
+        <button
+          onClick={onToggleTheme}
+          className="btn-clay"
+          aria-label="Toggle Theme"
+          style={{ width: '40px', height: '40px', padding: 0, borderRadius: '14px' }}
+        >
+          {theme === 'light' ? (
+            <Moon style={{ width: '18px', height: '18px', color: 'var(--text-color)' }} />
+          ) : (
+            <Sun style={{ width: '18px', height: '18px', color: 'var(--text-color)' }} />
+          )}
+        </button>
+
+        {/* Settings Button */}
         <button
           onClick={onOpenSettings}
-          className="btn-action"
-          style={{ padding: '8px 16px', fontSize: '0.85rem', fontWeight: '700' }}
+          className="btn-clay btn-clay-primary"
+          style={{ padding: '8px 16px', fontSize: '0.85rem', borderRadius: '14px' }}
         >
           <Settings style={{ width: '16px', height: '16px' }} />
-          <span>SETTINGS</span>
+          <span style={{ fontWeight: 600 }}>SETTINGS</span>
         </button>
       </div>
     </header>

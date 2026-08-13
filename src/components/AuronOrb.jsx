@@ -11,37 +11,39 @@ export default function AuronOrb({
 }) {
   return (
     <div className="arc-reactor-container">
-      {/* IRON MAN ARC REACTOR CORE */}
+      {/* CLAYMORPHIC REACTOR CORE */}
       <div
-        className={`arc-reactor ${status === 'listening' ? 'arc-reactor-listening' : ''}`}
+        className="arc-reactor"
         onClick={isListening ? onStopListening : onStartListening}
       >
-        <div className="ring-outer" />
+        <div className="ring-outer" style={{ borderColor: status === 'listening' ? 'var(--danger-color)' : status === 'speaking' ? 'var(--success-color)' : 'var(--primary-color)' }} />
         <div className="ring-inner" />
 
-        <div className="core-pulse">
+        <div className="core-pulse" style={{
+          background: status === 'listening' ? 'var(--danger-clay-bg)' : status === 'speaking' ? 'rgba(16, 185, 129, 0.15)' : 'var(--primary-clay-bg)',
+          boxShadow: status === 'listening' ? 'var(--danger-clay-shadow)' : status === 'speaking' ? 'inset -4px -4px 8px rgba(163, 177, 198, 0.3), inset 4px 4px 8px rgba(255, 255, 255, 0.7)' : 'var(--primary-clay-shadow)'
+        }}>
           {status === 'listening' ? (
-            <Mic style={{ width: '48px', height: '48px', color: '#ffffff', filter: 'drop-shadow(0 0 14px #00f0ff)' }} />
+            <Mic style={{ width: '42px', height: '42px', color: 'var(--danger-color)' }} />
           ) : status === 'thinking' ? (
-            <Cpu style={{ width: '48px', height: '48px', color: '#ffffff' }} />
+            <Cpu style={{ width: '42px', height: '42px', color: 'var(--secondary-color)', animation: 'spin 4s linear infinite' }} />
           ) : status === 'speaking' ? (
-            <Volume2 style={{ width: '48px', height: '48px', color: '#ffffff' }} />
+            <Volume2 style={{ width: '42px', height: '42px', color: 'var(--success-color)' }} />
           ) : (
-            <Zap style={{ width: '48px', height: '48px', color: '#ffffff' }} />
+            <Zap style={{ width: '42px', height: '42px', color: 'var(--primary-color)' }} />
           )}
         </div>
       </div>
 
       {/* STATUS LABEL BELOW REACTOR */}
       <div style={{
-        fontFamily: 'var(--font-title)',
-        fontSize: '0.8rem',
+        fontFamily: 'var(--font-main)',
+        fontSize: '0.85rem',
         fontWeight: '700',
-        letterSpacing: '2px',
-        color: status === 'listening' ? 'var(--cyan-bright)' : status === 'speaking' ? '#4ade80' : 'var(--text-muted)',
+        letterSpacing: '1.5px',
+        color: status === 'listening' ? 'var(--danger-color)' : status === 'speaking' ? 'var(--success-color)' : 'var(--text-muted)',
         textAlign: 'center',
-        marginTop: '14px',
-        textShadow: status !== 'idle' ? '0 0 10px currentColor' : 'none'
+        marginTop: '18px'
       }}>
         {status === 'listening' ? 'LISTENING...'
           : status === 'thinking' ? 'PROCESSING...'
@@ -50,40 +52,40 @@ export default function AuronOrb({
       </div>
 
       {/* FREQUENCY SPECTRUM BARS */}
-      <div style={{ display: 'flex', gap: '5px', height: '28px', alignItems: 'center', margin: '14px 0 20px 0' }}>
+      <div style={{ display: 'flex', gap: '6px', height: '24px', alignItems: 'center', margin: '16px 0 24px 0' }}>
         {[35, 75, 95, 50, 100, 80, 45, 90, 60, 100, 40].map((h, i) => (
           <div
             key={i}
             style={{
-              width: '5px',
-              height: status !== 'idle' ? `${h}%` : '8px',
-              background: status === 'listening' ? 'var(--cyan-bright)' : status === 'speaking' ? '#4ade80' : 'var(--border-hud)',
+              width: '6px',
+              height: status !== 'idle' ? `${h}%` : '6px',
+              background: status === 'listening' ? 'var(--danger-color)' : status === 'speaking' ? 'var(--success-color)' : 'var(--text-muted)',
+              opacity: status !== 'idle' ? 1 : 0.4,
               borderRadius: '3px',
-              transition: 'all 0.2s ease',
-              boxShadow: status !== 'idle' ? '0 0 10px currentColor' : 'none'
+              transition: 'all 0.25s ease'
             }}
           />
         ))}
       </div>
 
       {/* START / STOP VOICE BUTTONS */}
-      <div className="voice-controls-bar">
+      <div className="voice-controls-bar" style={{ display: 'flex', gap: '12px', width: '100%' }}>
         <button
           onClick={onStartListening}
-          className="btn-start-voice"
-          style={{ opacity: isListening ? 0.55 : 1, boxShadow: isListening ? 'none' : '0 0 25px var(--cyan-glow)' }}
+          className="btn-clay btn-clay-primary"
+          style={{ flex: 1, padding: '12px 16px', borderRadius: '16px' }}
         >
-          <Mic style={{ width: '20px', height: '20px' }} />
-          <span>START</span>
+          <Mic style={{ width: '18px', height: '18px' }} />
+          <span>TALK</span>
         </button>
 
         <button
           onClick={onStopListening}
-          className="btn-stop-voice"
-          style={{ opacity: !isListening ? 0.55 : 1, boxShadow: isListening ? '0 0 25px var(--crimson-glow)' : 'none' }}
+          className="btn-clay btn-clay-danger"
+          style={{ flex: 1, padding: '12px 16px', borderRadius: '16px' }}
         >
-          <MicOff style={{ width: '20px', height: '20px' }} />
-          <span>STOP</span>
+          <MicOff style={{ width: '18px', height: '18px' }} />
+          <span>MUTE</span>
         </button>
       </div>
     </div>

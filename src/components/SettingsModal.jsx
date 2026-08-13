@@ -93,42 +93,44 @@ export default function SettingsModal({
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      padding: '16px',
-      background: 'rgba(0, 0, 0, 0.85)',
-      backdropFilter: 'blur(12px)'
+      padding: '20px',
+      background: 'rgba(0, 0, 0, 0.4)',
+      backdropFilter: 'blur(16px)',
+      WebkitBackdropFilter: 'blur(16px)'
     }}>
-      <div className="jarvis-card" style={{
+      <div className="clay-card" style={{
         width: '100%',
         maxWidth: '560px',
         maxHeight: '90vh',
         overflowY: 'auto',
-        border: '1px solid var(--cyan-bright)',
-        boxShadow: '0 0 50px rgba(0, 240, 255, 0.35)'
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px'
       }}>
         
         {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: '16px', marginBottom: '20px', borderBottom: '1px solid var(--border-hud)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifySelf: 'stretch', justifyContent: 'space-between', paddingBottom: '16px', borderBottom: '1px solid var(--clay-border)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div style={{ padding: '8px', borderRadius: '8px', background: 'rgba(0, 240, 255, 0.15)', border: '1px solid var(--cyan-bright)' }}>
-              <Key style={{ width: '20px', height: '20px', color: 'var(--cyan-bright)' }} />
+            <div className="btn-clay btn-clay-primary" style={{ padding: '8px', borderRadius: '12px' }}>
+              <Key style={{ width: '18px', height: '18px' }} />
             </div>
             <div>
-              <div style={{ fontFamily: 'var(--font-title)', fontSize: '1.1rem', fontWeight: '700', color: '#ffffff' }}>SYSTEM CONFIGURATION</div>
-              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Configure Security Credential & Voice Engine</div>
+              <div style={{ fontFamily: 'var(--font-main)', fontSize: '1.15rem', fontWeight: '800', color: 'var(--text-color)' }}>SYSTEM CONFIGURATION</div>
+              <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Configure cognitive settings & speech synthesizer</div>
             </div>
           </div>
-          <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}>
-            <X style={{ width: '22px', height: '22px' }} />
+          <button onClick={onClose} className="btn-clay" style={{ width: '32px', height: '32px', padding: 0, borderRadius: '50%' }}>
+            <X style={{ width: '16px', height: '16px' }} />
           </button>
         </div>
 
         {/* Section 1: Security Credential */}
-        <div style={{ marginBottom: '24px' }}>
-          <label style={{ display: 'block', fontSize: '0.85rem', fontFamily: 'var(--font-mono)', fontWeight: '700', color: 'var(--cyan-bright)', marginBottom: '6px' }}>
+        <div>
+          <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '700', color: 'var(--primary-color)', marginBottom: '6px' }}>
             SECURITY ACCESS CREDENTIAL
           </label>
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '12px' }}>
-            Optional: Enter your custom security access credential below to personalize system intelligence responses.
+          <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '12px' }}>
+            Enter your custom Gemini API key to personalize system intelligence responses.
           </p>
 
           <div style={{ position: 'relative', display: 'flex', alignItems: 'center', marginBottom: '12px' }}>
@@ -136,30 +138,30 @@ export default function SettingsModal({
               type={showKey ? 'text' : 'password'}
               value={keyInput}
               onChange={(e) => setKeyInput(e.target.value)}
-              placeholder="Enter your system access credential here..."
-              className="chat-input"
-              style={{ width: '100%', paddingRight: '40px' }}
+              placeholder="Enter Gemini API key..."
+              className="clay-input-field"
+              style={{ width: '100%', paddingRight: '46px' }}
             />
             <button
               type="button"
               onClick={() => setShowKey(!showKey)}
-              style={{ position: 'absolute', right: '12px', background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}
+              style={{ position: 'absolute', right: '14px', background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}
             >
               {showKey ? <EyeOff style={{ width: '18px', height: '18px' }} /> : <Eye style={{ width: '18px', height: '18px' }} />}
             </button>
           </div>
 
           <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-            <button onClick={handleSaveKey} className="btn-send" style={{ padding: '8px 16px', fontSize: '0.85rem' }}>
-              <CheckCircle style={{ width: '16px', height: '16px' }} /> SAVE CREDENTIAL
+            <button onClick={handleSaveKey} className="btn-clay btn-clay-primary" style={{ padding: '10px 16px', fontSize: '0.82rem', borderRadius: '12px' }}>
+              <CheckCircle style={{ width: '15px', height: '15px' }} /> SAVE
             </button>
 
-            <button onClick={handleTestKey} className="btn-action" style={{ padding: '8px 16px', fontSize: '0.85rem' }}>
-              <RefreshCw style={{ width: '16px', height: '16px', animation: testStatus === 'testing' ? 'spin 1s linear infinite' : 'none' }} /> VERIFY CREDENTIAL
+            <button onClick={handleTestKey} className="btn-clay" style={{ padding: '10px 16px', fontSize: '0.82rem', borderRadius: '12px' }}>
+              <RefreshCw style={{ width: '15px', height: '15px', animation: testStatus === 'testing' ? 'spin 1.5s linear infinite' : 'none' }} /> VERIFY
             </button>
 
             {keyInput && (
-              <button onClick={handleClearKey} className="btn-action" style={{ padding: '8px 16px', fontSize: '0.85rem', borderColor: 'var(--crimson-stop)', color: 'var(--crimson-stop)' }}>
+              <button onClick={handleClearKey} className="btn-clay btn-clay-danger" style={{ padding: '10px 16px', fontSize: '0.82rem', borderRadius: '12px' }}>
                 CLEAR
               </button>
             )}
@@ -168,13 +170,13 @@ export default function SettingsModal({
           {testMsg && (
             <div style={{
               marginTop: '12px',
-              padding: '10px 14px',
-              borderRadius: '8px',
+              padding: '12px 16px',
+              borderRadius: '14px',
               fontSize: '0.8rem',
-              fontFamily: 'var(--font-mono)',
-              background: testStatus === 'success' ? 'rgba(74, 222, 128, 0.1)' : testStatus === 'error' ? 'rgba(255, 0, 85, 0.1)' : 'rgba(0, 240, 255, 0.1)',
-              border: testStatus === 'success' ? '1px solid #4ade80' : testStatus === 'error' ? '1px solid var(--crimson-stop)' : '1px solid var(--cyan-bright)',
-              color: testStatus === 'success' ? '#4ade80' : testStatus === 'error' ? '#ff4d6d' : 'var(--cyan-bright)'
+              fontWeight: 500,
+              background: testStatus === 'success' ? 'rgba(16, 185, 129, 0.12)' : testStatus === 'error' ? 'var(--danger-clay-bg)' : 'var(--primary-clay-bg)',
+              border: testStatus === 'success' ? '1px solid var(--success-color)' : testStatus === 'error' ? '1px solid var(--danger-color)' : '1px solid var(--primary-color)',
+              color: testStatus === 'success' ? 'var(--success-color)' : testStatus === 'error' ? 'var(--danger-color)' : 'var(--primary-color)'
             }}>
               {testMsg}
             </div>
@@ -182,53 +184,54 @@ export default function SettingsModal({
         </div>
 
         {/* Section 2: Assistant Personas */}
-        <div style={{ marginBottom: '24px', paddingTop: '16px', borderTop: '1px solid var(--border-hud)' }}>
-          <label style={{ display: 'block', fontSize: '0.85rem', fontFamily: 'var(--font-mono)', fontWeight: '700', color: 'var(--cyan-bright)', marginBottom: '10px' }}>
-            ASSISTANT PERSONA PROTOCOLS
+        <div style={{ paddingTop: '16px', borderTop: '1px solid var(--clay-border)' }}>
+          <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '700', color: 'var(--primary-color)', marginBottom: '12px' }}>
+            COGNITIVE PERSONA MATRIX
           </label>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
             {[
-              { id: 'auron', name: 'JARVIS Standard', desc: 'Sleek, intelligent, concise' },
-              { id: 'coder', name: 'Code Master', desc: 'Software architecture & code snippets' },
-              { id: 'creative', name: 'Creative AI', desc: 'Brainstorming & innovation' },
-              { id: 'analyst', name: 'Tactical Analyst', desc: 'Data research & logic analysis' }
+              { id: 'auron', name: 'Auron Standard', desc: 'Sleek, intelligent, concise' },
+              { id: 'coder', name: 'Code Expert', desc: 'Software architecture & code helper' },
+              { id: 'creative', name: 'Creative Muse', desc: 'Brainstorming & innovation' },
+              { id: 'analyst', name: 'Tactical Analyst', desc: 'Logical, analytical research' }
             ].map(p => (
               <div
                 key={p.id}
                 onClick={() => onChangePersona(p.id)}
                 style={{
-                  padding: '12px',
-                  borderRadius: '10px',
-                  border: persona === p.id ? '1px solid var(--cyan-bright)' : '1px solid var(--border-hud)',
-                  background: persona === p.id ? 'rgba(0, 240, 255, 0.15)' : 'rgba(3, 7, 18, 0.6)',
+                  padding: '14px',
+                  borderRadius: '16px',
+                  border: persona === p.id ? '1.5px solid var(--primary-color)' : '1px solid var(--clay-border)',
+                  background: persona === p.id ? 'var(--primary-clay-bg)' : 'rgba(0,0,0,0.03)',
+                  boxShadow: persona === p.id ? 'var(--primary-clay-shadow)' : 'var(--clay-shadow-inner)',
                   cursor: 'pointer',
-                  transition: 'all 0.2s ease'
+                  transition: 'all 0.25s ease'
                 }}
               >
-                <div style={{ fontSize: '0.85rem', fontWeight: '700', color: persona === p.id ? 'var(--cyan-bright)' : '#ffffff' }}>{p.name}</div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '2px' }}>{p.desc}</div>
+                <div style={{ fontSize: '0.85rem', fontWeight: '700', color: persona === p.id ? 'var(--primary-color)' : 'var(--text-color)' }}>{p.name}</div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '4px', lineHeight: 1.3 }}>{p.desc}</div>
               </div>
             ))}
           </div>
         </div>
 
         {/* Section 3: Voice Synth Engine */}
-        <div style={{ paddingTop: '16px', borderTop: '1px solid var(--border-hud)' }}>
-          <label style={{ display: 'block', fontSize: '0.85rem', fontFamily: 'var(--font-mono)', fontWeight: '700', color: 'var(--cyan-bright)', marginBottom: '10px' }}>
-            TEXT-TO-SPEECH (TTS) VOICE ENGINE
+        <div style={{ paddingTop: '16px', borderTop: '1px solid var(--clay-border)' }}>
+          <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '700', color: 'var(--primary-color)', marginBottom: '12px' }}>
+            TEXT-TO-SPEECH (TTS) ENGINE
           </label>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
             <div>
-              <label style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '4px' }}>Synthesizer Voice</label>
+              <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '6px', fontWeight: 500 }}>Voice Profile</label>
               <select
                 value={voiceSettings.voiceIndex || 0}
                 onChange={(e) => onUpdateVoiceSettings({ ...voiceSettings, voiceIndex: Number(e.target.value) })}
-                className="chat-input"
-                style={{ fontSize: '0.8rem', padding: '8px' }}
+                className="clay-input-field"
+                style={{ fontSize: '0.82rem', padding: '10px 14px', borderRadius: '14px', height: '42px', appearance: 'none', backgroundImage: 'radial-gradient(circle, var(--text-color) 20%, transparent 20%)', backgroundPosition: 'calc(100% - 14px) center', backgroundSize: '10px 10px', backgroundRepeat: 'no-repeat' }}
               >
                 {availableVoices.length > 0 ? (
                   availableVoices.map((v, i) => (
-                    <option key={i} value={i} style={{ background: '#030712', color: '#ffffff' }}>
+                    <option key={i} value={i} style={{ background: 'var(--bg-color)', color: 'var(--text-color)' }}>
                       {v.name} ({v.lang})
                     </option>
                   ))
@@ -239,23 +242,25 @@ export default function SettingsModal({
             </div>
 
             <div>
-              <label style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '4px' }}>Voice Speed ({voiceSettings.rate || 1}x)</label>
-              <input
-                type="range"
-                min="0.6"
-                max="1.5"
-                step="0.1"
-                value={voiceSettings.rate || 1}
-                onChange={(e) => onUpdateVoiceSettings({ ...voiceSettings, rate: Number(e.target.value) })}
-                style={{ width: '100%', accentColor: 'var(--cyan-bright)', cursor: 'pointer' }}
-              />
+              <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '6px', fontWeight: 500 }}>Vocalization Speed ({voiceSettings.rate || 1}x)</label>
+              <div style={{ display: 'flex', alignItems: 'center', height: '42px' }}>
+                <input
+                  type="range"
+                  min="0.6"
+                  max="1.5"
+                  step="0.1"
+                  value={voiceSettings.rate || 1}
+                  onChange={(e) => onUpdateVoiceSettings({ ...voiceSettings, rate: Number(e.target.value) })}
+                  style={{ width: '100%', accentColor: 'var(--primary-color)', cursor: 'pointer' }}
+                />
+              </div>
             </div>
           </div>
         </div>
 
         {/* Footer */}
-        <div style={{ marginTop: '24px', paddingTop: '16px', borderTop: '1px solid var(--border-hud)', display: 'flex' }}>
-          <button onClick={onClose} className="btn-send" style={{ marginLeft: 'auto' }}>
+        <div style={{ marginTop: '10px', paddingTop: '16px', borderTop: '1px solid var(--clay-border)', display: 'flex' }}>
+          <button onClick={onClose} className="btn-clay btn-clay-primary" style={{ marginLeft: 'auto', borderRadius: '14px', padding: '10px 20px' }}>
             DONE & CLOSE
           </button>
         </div>

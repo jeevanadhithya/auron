@@ -12,6 +12,7 @@ export default function Home() {
   const [inputText, setInputText] = useState('');
   const [status, setStatus] = useState('idle');
   const [isListening, setIsListening] = useState(false);
+  const [theme, setTheme] = useState('dark');
   
   const [apiKey, setApiKey] = useState('');
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -29,8 +30,21 @@ export default function Home() {
       if (savedPersona) setPersona(savedPersona);
       const savedVoice = localStorage.getItem('auron_voice_settings');
       if (savedVoice) { try { setVoiceSettings(JSON.parse(savedVoice)); } catch (e) {} }
+      
+      const savedTheme = localStorage.getItem('auron_theme') || 'dark';
+      setTheme(savedTheme);
+      document.documentElement.className = savedTheme === 'light' ? 'light-mode' : '';
     }
   }, []);
+
+  const handleToggleTheme = () => {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(nextTheme);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('auron_theme', nextTheme);
+      document.documentElement.className = nextTheme === 'light' ? 'light-mode' : '';
+    }
+  };
 
   const handleSaveApiKey = (key) => {
     setApiKey(key);
@@ -177,6 +191,8 @@ export default function Home() {
         status={status}
         onOpenSettings={() => setIsSettingsOpen(true)}
         hasCustomKey={Boolean(apiKey && apiKey.length > 5)}
+        theme={theme}
+        onToggleTheme={handleToggleTheme}
       />
 
       {/* Two balanced columns — equal height via stretch */}
@@ -184,7 +200,7 @@ export default function Home() {
 
         {/* LEFT: Reactor + Diagnostics + Quick Actions */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          <div className="jarvis-card" style={{ flex: '0 0 auto' }}>
+          <div className="clay-card" style={{ flex: '0 0 auto' }}>
             <AuronOrb
               status={status}
               isListening={isListening}

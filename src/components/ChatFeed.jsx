@@ -29,7 +29,6 @@ export default function ChatFeed({
   // Prevent page scroll when focusing the input
   const handleInputFocus = (e) => {
     e.preventDefault();
-    // Scroll only within the chat container, not the page
     setTimeout(() => {
       inputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }, 0);
@@ -43,33 +42,24 @@ export default function ChatFeed({
   ];
 
   return (
-    <div className="chat-console" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+    <div className="chat-console">
       {/* HUD Console Header */}
       <div className="chat-header">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <Terminal style={{ width: '16px', height: '16px', color: 'var(--cyan-bright)' }} />
-          <span>JARVIS COMMUNICATIONS TERMINAL</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <Terminal style={{ width: '16px', height: '16px', color: 'var(--primary-color)' }} />
+          <span style={{ fontSize: '0.85rem', tracking: '0.5px' }}>COMMUNICATIONS TERMINAL</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <span>MARK VII CORE • ACTIVE</span>
-          {/* DUSTBIN / CLEAR BUTTON */}
           {messages.length > 0 && (
             <button
               onClick={onClearMessages}
+              className="btn-clay btn-clay-danger"
               title="Clear all messages"
               style={{
-                background: 'none',
-                border: '1px solid rgba(255,0,85,0.4)',
-                borderRadius: '6px',
-                padding: '3px 8px',
-                color: 'var(--crimson-stop)',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '4px',
+                padding: '6px 12px',
+                borderRadius: '12px',
                 fontSize: '0.75rem',
-                fontFamily: 'var(--font-mono)',
-                transition: 'all 0.2s ease'
+                fontWeight: 600
               }}
             >
               <Trash2 style={{ width: '13px', height: '13px' }} /> CLEAR
@@ -79,7 +69,7 @@ export default function ChatFeed({
       </div>
 
       {/* Messages Stream */}
-      <div className="chat-messages" style={{ flex: 1, overflowY: 'auto', padding: '20px' }}>
+      <div className="chat-messages">
         {messages.length === 0 ? (
           <div style={{
             height: '100%',
@@ -88,41 +78,40 @@ export default function ChatFeed({
             alignItems: 'center',
             justifyContent: 'center',
             textAlign: 'center',
-            gap: '16px',
+            gap: '20px',
             color: 'var(--text-muted)'
           }}>
-            <div style={{
-              width: '60px',
-              height: '60px',
+            <div className="btn-clay btn-clay-primary" style={{
+              width: '64px',
+              height: '64px',
               borderRadius: '50%',
-              background: 'rgba(0, 240, 255, 0.1)',
-              border: '1px solid var(--cyan-bright)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: '0 0 20px var(--cyan-glow)'
+              padding: 0
             }}>
-              <Sparkles style={{ width: '30px', height: '30px', color: 'var(--cyan-bright)' }} />
+              <Sparkles style={{ width: '28px', height: '28px' }} />
             </div>
             <div>
-              <div style={{ fontFamily: 'var(--font-title)', fontSize: '1.05rem', color: '#ffffff', fontWeight: '700' }}>
-                JARVIS STANDING BY
+              <div style={{ fontFamily: 'var(--font-main)', fontSize: '1.2rem', color: 'var(--text-color)', fontWeight: '700' }}>
+                AURON IS ACTIVE
               </div>
-              <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '4px', maxWidth: '380px' }}>
-                Click START to speak, or type your command below.
+              <div style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginTop: '6px', maxWidth: '380px', lineHeight: 1.5 }}>
+                Click TALK to speak, or select a quick query below to test the cognitive core.
               </div>
             </div>
 
             {/* Quick Prompts */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', width: '100%', maxWidth: '460px', marginTop: '8px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', width: '100%', maxWidth: '480px', marginTop: '10px' }}>
               {quickPrompts.map((prompt, idx) => (
                 <button
                   key={idx}
                   onClick={() => onSendMessage(prompt)}
-                  className="btn-action"
-                  style={{ textAlign: 'left', padding: '10px 14px', fontSize: '0.8rem' }}
+                  className="btn-clay"
+                  style={{ textAlign: 'left', padding: '12px 16px', fontSize: '0.82rem', borderRadius: '16px', justifyContent: 'flex-start' }}
                 >
-                  <span style={{ color: 'var(--cyan-bright)', marginRight: '4px' }}>›</span> {prompt}
+                  <span style={{ color: 'var(--primary-color)', marginRight: '6px', fontWeight: 'bold' }}>›</span>
+                  <span style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{prompt}</span>
                 </button>
               ))}
             </div>
@@ -135,35 +124,35 @@ export default function ChatFeed({
             >
               <div className={msg.role === 'user' ? 'msg-user' : 'msg-jarvis'}>
                 {/* Message Label */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px', fontSize: '0.72rem', fontFamily: 'var(--font-mono)', opacity: 0.75 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px', fontSize: '0.72rem', fontWeight: 700, opacity: 0.8 }}>
                   {msg.role === 'user' ? (
-                    <><User style={{ width: '11px', height: '11px' }} /><span>YOU</span></>
+                    <><User style={{ width: '12px', height: '12px' }} /><span>YOU</span></>
                   ) : (
-                    <><Bot style={{ width: '11px', height: '11px', color: 'var(--cyan-bright)' }} /><span style={{ color: 'var(--cyan-bright)' }}>JARVIS</span></>
+                    <><Bot style={{ width: '12px', height: '12px', color: 'var(--primary-color)' }} /><span style={{ color: 'var(--primary-color)' }}>AURON</span></>
                   )}
                 </div>
 
                 {/* Message Text */}
-                <div style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word', lineHeight: '1.65', fontSize: '0.95rem' }}>
+                <div style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word', lineHeight: '1.6', fontSize: '0.92rem' }}>
                   {msg.content}
                 </div>
 
-                {/* Action buttons for JARVIS replies only */}
+                {/* Action buttons for replies */}
                 {msg.role !== 'user' && (
-                  <div style={{ display: 'flex', gap: '14px', marginTop: '10px', paddingTop: '8px', borderTop: '1px solid rgba(255,255,255,0.07)', fontSize: '0.72rem', fontFamily: 'var(--font-mono)' }}>
+                  <div style={{ display: 'flex', gap: '16px', marginTop: '12px', paddingTop: '10px', borderTop: '1px solid var(--clay-border)', fontSize: '0.75rem', fontWeight: 600 }}>
                     <button
                       onClick={() => onSpeakText(msg.content)}
-                      style={{ background: 'none', border: 'none', color: 'var(--cyan-bright)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}
+                      style={{ background: 'none', border: 'none', color: 'var(--primary-color)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}
                     >
-                      <Volume2 style={{ width: '12px', height: '12px' }} /> READ ALOUD
+                      <Volume2 style={{ width: '14px', height: '14px' }} /> SPEAK
                     </button>
                     <button
                       onClick={() => handleCopy(msg.content, idx)}
                       style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}
                     >
                       {copiedIndex === idx
-                        ? <><Check style={{ width: '12px', height: '12px', color: '#4ade80' }} /> COPIED</>
-                        : <><Copy style={{ width: '12px', height: '12px' }} /> COPY</>
+                        ? <><Check style={{ width: '14px', height: '14px', color: 'var(--success-color)' }} /> COPIED</>
+                        : <><Copy style={{ width: '14px', height: '14px' }} /> COPY</>
                       }
                     </button>
                   </div>
@@ -174,17 +163,17 @@ export default function ChatFeed({
         )}
 
         {status === 'thinking' && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '14px 18px', background: 'rgba(10,25,47,0.9)', border: '1px solid var(--border-hud)', borderLeft: '3px solid var(--cyan-bright)', borderRadius: '12px', color: 'var(--cyan-bright)', fontSize: '0.85rem', fontFamily: 'var(--font-mono)' }}>
-            <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--cyan-bright)', animation: 'ping 1s cubic-bezier(0,0,0.2,1) infinite' }} />
-            Analyzing request...
+          <div className="msg-jarvis" style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '12px 18px', borderRadius: '16px 16px 16px 4px', fontSize: '0.85rem' }}>
+            <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--primary-color)', animation: 'reactorPulse 1.5s ease-in-out infinite' }} />
+            <span>Processing intelligence matrix...</span>
           </div>
         )}
 
         <div ref={messagesEndRef} />
       </div>
 
-      {/* CHAT INPUT BAR - fixed at bottom, no page scroll on focus */}
-      <div className="chat-input-bar" style={{ flexShrink: 0 }}>
+      {/* CHAT INPUT BAR */}
+      <div className="chat-input-bar">
         <input
           ref={inputRef}
           type="text"
@@ -192,16 +181,20 @@ export default function ChatFeed({
           onChange={(e) => onInputChange(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && onSendMessage()}
           onFocus={handleInputFocus}
-          placeholder="Enter command for JARVIS..."
-          className="chat-input"
-          style={{ scrollMarginBottom: '0' }}
+          placeholder="Command Auron..."
+          className="clay-input-field"
         />
 
         <button
           onClick={() => onSendMessage()}
           disabled={!(inputText || '').trim() || status === 'thinking'}
-          className="btn-send"
-          style={{ opacity: !(inputText || '').trim() ? 0.55 : 1 }}
+          className="btn-clay btn-clay-primary"
+          style={{ 
+            height: '48px', 
+            padding: '0 20px', 
+            borderRadius: '18px',
+            opacity: !(inputText || '').trim() ? 0.6 : 1 
+          }}
         >
           <span>SEND</span>
           <Send style={{ width: '16px', height: '16px' }} />
