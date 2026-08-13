@@ -9,77 +9,76 @@ export default function Header({
   theme,
   onToggleTheme
 }) {
+  const statusColors = {
+    idle:      { color: 'var(--text-muted)',      label: 'IDLE' },
+    listening: { color: 'var(--danger-color)',    label: 'LISTENING' },
+    thinking:  { color: 'var(--accent-amber)',    label: 'THINKING' },
+    speaking:  { color: 'var(--accent-emerald)',  label: 'SPEAKING' },
+  };
+  const sc = statusColors[status] || statusColors.idle;
+
   return (
     <header className="jarvis-header">
-      {/* Brand & Logo */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-        <div className="btn-clay btn-clay-primary" style={{
-          width: '46px',
-          height: '46px',
-          padding: 0,
-          borderRadius: '16px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}>
-          <Zap style={{ width: '22px', height: '22px' }} />
-        </div>
+      {/* Brand & Subtitle */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <Zap style={{ width: '22px', height: '22px', color: 'var(--primary-color)', filter: 'drop-shadow(0 0 4px var(--primary-glow))' }} />
         <div>
-          <div className="brand-title">
-            <span>AURON</span>
-            <span className="badge-jarvis" style={{ fontSize: '0.65rem', padding: '2px 8px', borderRadius: '8px' }}>v2.0</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ fontFamily: 'var(--font-main)', fontWeight: 900, fontSize: '1.25rem', tracking: '-0.5px' }}>AURON</span>
+            <span className="badge-jarvis" style={{ fontSize: '0.6rem', padding: '1px 5px', borderRadius: '4px' }}>v2.0</span>
           </div>
-          <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 500 }}>
-            INTELLIGENT VOICE & CHAT ASSISTANT
+          <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', fontWeight: 600, letterSpacing: '1px', fontFamily: 'var(--font-hud)', marginTop: '1px' }}>
+            INTELLIGENT VOICE &amp; CHAT ASSISTANT
           </div>
         </div>
       </div>
 
-      {/* Control Actions & Status */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-        {/* System Secure Badge */}
-        <span className="badge-jarvis badge-stable" style={{ display: 'flex', alignItems: 'center', gap: '4px', fontWeight: 600 }}>
-          <ShieldCheck style={{ width: '13px', height: '13px' }} /> SECURE
+      {/* Control Actions */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        {/* Secure pill */}
+        <span className="badge-jarvis badge-stable" style={{ display: 'flex', alignItems: 'center', gap: '4px', padding: '6px 12px', borderRadius: '12px' }}>
+          <ShieldCheck style={{ width: '12px', height: '12px' }} />
+          SECURE
         </span>
 
-        {/* Live Status Indicator */}
-        <div 
-          className="btn-clay" 
-          style={{
-            pointerEvents: 'none',
-            fontSize: '0.8rem',
-            padding: '8px 16px',
-            borderRadius: '14px',
-            color: status === 'listening' ? 'var(--danger-color)' : status === 'speaking' ? 'var(--success-color)' : 'var(--text-color)',
-            border: status !== 'idle' ? '1px solid currentColor' : '1px solid var(--clay-border)'
-          }}
-        >
-          <Radio style={{ width: '14px', height: '14px', animation: status !== 'idle' ? 'spin 2s linear infinite' : 'none' }} />
-          <span style={{ fontWeight: 600 }}>{status.toUpperCase()}</span>
+        {/* Live Status pill */}
+        <div className="btn-clay" style={{
+          pointerEvents: 'none',
+          fontSize: '0.78rem',
+          padding: '6px 14px',
+          borderRadius: '12px',
+          color: sc.color,
+          fontFamily: 'var(--font-hud)',
+          fontWeight: 700,
+          letterSpacing: '0.5px',
+          border: '1px solid var(--clay-border)',
+          display: 'flex', alignItems: 'center', gap: '6px'
+        }}>
+          <span className="glow-dot" style={{ background: sc.color, boxShadow: `0 0 6px ${sc.color}` }} />
+          {sc.label}
         </div>
 
-        {/* Theme Toggle Button */}
+        {/* Theme button */}
         <button
           onClick={onToggleTheme}
           className="btn-clay"
           aria-label="Toggle Theme"
-          style={{ width: '40px', height: '40px', padding: 0, borderRadius: '14px' }}
+          style={{ width: '36px', height: '36px', padding: 0, borderRadius: '12px' }}
         >
-          {theme === 'light' ? (
-            <Moon style={{ width: '18px', height: '18px', color: 'var(--text-color)' }} />
-          ) : (
-            <Sun style={{ width: '18px', height: '18px', color: 'var(--text-color)' }} />
-          )}
+          {theme === 'dark'
+            ? <Sun style={{ width: '15px', height: '15px', color: 'var(--accent-amber)' }} />
+            : <Moon style={{ width: '15px', height: '15px', color: 'var(--secondary-color)' }} />
+          }
         </button>
 
-        {/* Settings Button */}
+        {/* Settings button */}
         <button
           onClick={onOpenSettings}
-          className="btn-clay btn-clay-primary"
-          style={{ padding: '8px 16px', fontSize: '0.85rem', borderRadius: '14px' }}
+          className="btn-clay"
+          style={{ padding: '8px 14px', fontSize: '0.8rem', borderRadius: '12px' }}
         >
-          <Settings style={{ width: '16px', height: '16px' }} />
-          <span style={{ fontWeight: 600 }}>SETTINGS</span>
+          <Settings style={{ width: '14px', height: '14px' }} />
+          SETTINGS
         </button>
       </div>
     </header>
