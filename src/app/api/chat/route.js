@@ -127,7 +127,7 @@ Current Local Date and Time: ${currentDateTime}`
     const genAI = new GoogleGenerativeAI(apiKey);
 
     const modelCandidates = [
-      'gemini-2.5-flash-lite'
+      'gemini-2.5-flash'
     ];
     let lastError = null;
     let textReply = '';
