@@ -4,10 +4,10 @@ import { promisify } from 'util';
 const execAsync = promisify(exec);
 
 // Map of recognized app names to Windows commands
-const APP_COMMANDS = {
+export const APP_COMMANDS = {
   // Calculators & Math
-  'calculator': 'calc',
-  'calc': 'calc',
+  'calculator': 'start calc',
+  'calc': 'start calc',
 
   // Control Panel & Settings
   'control panel': 'control',
@@ -23,17 +23,17 @@ const APP_COMMANDS = {
   // System Tools
   'task manager': 'taskmgr',
   'taskmgr': 'taskmgr',
-  'file explorer': 'explorer',
-  'explorer': 'explorer',
-  'notepad': 'notepad',
-  'paint': 'mspaint',
-  'mspaint': 'mspaint',
-  'wordpad': 'wordpad',
-  'snipping tool': 'snippingtool',
-  'snip': 'snippingtool',
-  'magnifier': 'magnify',
-  'on-screen keyboard': 'osk',
-  'narrator': 'narrator',
+  'file explorer': 'start explorer',
+  'explorer': 'start explorer',
+  'notepad': 'start notepad',
+  'paint': 'start mspaint',
+  'mspaint': 'start mspaint',
+  'wordpad': 'start wordpad',
+  'snipping tool': 'start snippingtool',
+  'snip': 'start snippingtool',
+  'magnifier': 'start magnify',
+  'on-screen keyboard': 'start osk',
+  'narrator': 'start narrator',
 
   // Terminal & Command
   'command prompt': 'cmd',
@@ -42,7 +42,7 @@ const APP_COMMANDS = {
   'terminal': 'wt',
 
   // Microsoft Office / Apps
-  'notepad++': 'notepad',
+  'notepad++': 'start notepad',
   'clock': 'start ms-clock:',
   'calendar': 'start outlookcal:',
   'maps': 'start bingmaps:',
@@ -75,7 +75,7 @@ const APP_COMMANDS = {
   'browser': 'start msedge',
 };
 
-function findCommand(appName) {
+export function findCommand(appName) {
   const lower = appName.toLowerCase().trim();
   // Direct match
   if (APP_COMMANDS[lower]) return APP_COMMANDS[lower];
@@ -114,7 +114,7 @@ export async function POST(req) {
     });
 
   } catch (error) {
-    // Some commands (like ms-settings:) throw even on success
+    // Some commands (like ms-settings: or explorer) throw even on success or exit cleanly
     if (error.code === 0 || error.killed === false) {
       return Response.json({ success: true, message: 'Application launched.' });
     }
@@ -125,3 +125,4 @@ export async function POST(req) {
     }, { status: 500 });
   }
 }
+

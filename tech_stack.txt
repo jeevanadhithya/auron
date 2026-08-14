@@ -1,0 +1,21 @@
+AURON AI SYSTEM - TECH STACK & TECHNOLOGIES USED
+
+1. Core Framework & Engine:
+   - Next.js (version ^14.2.15) - A React framework for building fast web applications, utilizing the App Router architecture (src/app).
+   - React (version ^18.3.1) - A declarative, component-based user interface library.
+   - Node.js API Routes - Serverless functions running locally, handling OS interactions, weather API fetches, and Gemini AI communications.
+
+2. AI & Natural Language Processing:
+   - Google Generative AI (@google/generative-ai version ^0.21.0) - Connects to Google's Gemini models (gemini-2.0-flash, gemini-1.5-flash) for intelligent chat, voice processing, and advanced system-level function calling (tool execution).
+
+3. Styling & Presentation:
+   - Vanilla CSS (src/app/globals.css) - A premium, custom design system utilizing CSS variables for theme modes (dark/light), custom glassmorphism effects, custom keyframes/animations, and grid layouts.
+   - Lucide React (version ^0.460.0) - Modern and sleek vector icons for system dashboards.
+
+4. Client-side APIs & Features:
+   - HTML5 Web Speech API (SpeechRecognition / webkitSpeechRecognition) - For real-time voice command input.
+   - Web Speech Synthesis API - For AI vocal responses and voice output.
+
+5. System Integration & Execution (Backend):
+   - child_process.exec (Node.js) - To control Windows programs asynchronously (launching applications, controlling explorer, running search queries in Chrome).
+   - OpenWeather API - Real-time environment streams integrated directly with widgets and the AI context.
